@@ -14,9 +14,20 @@ spec:
     spec:
       containers:
       - name: myweb
-        image: supreecha2003/minikube:1.0   # image บน Docker Hub
+        image: supreecha2003/minikube:1.2
         ports:
-        - containerPort: 5000   # ปรับตาม port ที่เว็บคุณรัน เช่น Flask = 5000
+        - containerPort: 5000
+        env:
+        - name: DB_HOST
+          value: "postgres-flask"    # ✅ ใช้ชื่อ service ใหม่
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "mydb"
+        - name: DB_USER
+          value: "user"
+        - name: DB_PASS
+          value: "pass"
 ---
 apiVersion: v1
 kind: Service
