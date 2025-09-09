@@ -17,8 +17,8 @@ jobs:
       - name: Checkout app repo
         uses: actions/checkout@v3
         with:
-          repository: auttz/DockerFile_AppPython   # 👈 เปลี่ยนเป็นชื่อจริงของ repo ที่มี Dockerfile
-          path: app                                        # clone ไว้ที่โฟลเดอร์ ./app
+          repository: auttz/DockerFile_AppPython   # 👈 repo ที่มี Dockerfile
+          path: app                               # clone ไว้ที่โฟลเดอร์ ./app
 
       # 3. Login Docker Hub
       - name: Log in to Docker Hub
@@ -26,11 +26,11 @@ jobs:
 
       # 4. Build Docker image (ใช้ Dockerfile จาก ./app)
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minikube:1.5 ./app
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minikube:1.6 ./app
 
       # 5. Push Docker image
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/minikube:1.5
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/minikube:1.6
 
   deploy:
     runs-on: self-hosted   # ✅ เครื่องที่มี Minikube
@@ -43,10 +43,8 @@ jobs:
 
       # 2. Deploy ไป Minikube
       - name: Deploy to Minikube
-        shell: powershell
+        shell: powershell -ExecutionPolicy Bypass
         run: |
-          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
           kubectl apply -f deployment.yaml
           kubectl apply -f postgres.yaml
-          kubectl rollout status deployment/myapp 
-
+          kubectl rollout status deployment/myapp
