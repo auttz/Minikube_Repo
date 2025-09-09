@@ -41,7 +41,14 @@ jobs:
       - name: Checkout manifests repo
         uses: actions/checkout@v3
 
-      # 2. Deploy ไป Minikube (ใช้ cmd ไม่ติด execution policy)
+      # 2. Start Minikube
+      - name: Start Minikube
+        shell: cmd
+        run: |
+          minikube start
+          kubectl config use-context minikube
+
+      # 3. Deploy ไป Minikube
       - name: Deploy to Minikube
         shell: cmd
         run: |
