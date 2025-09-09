@@ -13,7 +13,7 @@ jobs:
       - name: Checkout manifests repo
         uses: actions/checkout@v3
 
-      # 2. Checkout อีก repo (มี Dockerfile)
+      # 2. Checkout อีก repo (มี Dockerfile)  
       - name: Checkout app repo
         uses: actions/checkout@v3
         with:
@@ -26,11 +26,11 @@ jobs:
 
       # 4. Build Docker image (ใช้ Dockerfile จาก ./app)
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minikube:1.4 ./app
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minikube:1.5 ./app
 
       # 5. Push Docker image
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/minikube:1.4
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/minikube:1.5
 
   deploy:
     runs-on: self-hosted   # ✅ เครื่องที่มี Minikube
@@ -43,7 +43,10 @@ jobs:
 
       # 2. Deploy ไป Minikube
       - name: Deploy to Minikube
+        shell: powershell
         run: |
+          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
           kubectl apply -f deployment.yaml
           kubectl apply -f postgres.yaml
-          kubectl rollout status deployment/myapp
+          kubectl rollout status deployment/myapp 
+
