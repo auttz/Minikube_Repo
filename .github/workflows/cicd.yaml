@@ -17,7 +17,7 @@ jobs:
       - name: Checkout app repo
         uses: actions/checkout@v3
         with:
-          repository: supreecha2003/DockerFile_AppPython   # 👈 เปลี่ยนเป็นชื่อจริงของ repo ที่มี Dockerfile
+          repository: auttz/DockerFile_AppPython   # 👈 เปลี่ยนเป็นชื่อจริงของ repo ที่มี Dockerfile
           path: app                                        # clone ไว้ที่โฟลเดอร์ ./app
 
       # 3. Login Docker Hub
