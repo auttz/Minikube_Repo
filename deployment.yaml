@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myweb
-        image: supreecha2003/minikube:1.2
+        image: supreecha2003/minikube:1.8
         ports:
         - containerPort: 5000
         env:
