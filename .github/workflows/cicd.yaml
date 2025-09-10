@@ -26,11 +26,11 @@ jobs:
 
       # 4. Build Docker image (ใช้ Dockerfile จาก ./app)
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minikube:1.8 ./app
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/minikube:1.4 ./app
 
       # 5. Push Docker image
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/minikube:1.8
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/minikube:1.4
 
   deploy:
     runs-on: self-hosted   # ✅ เครื่องที่มี Minikube
@@ -41,10 +41,11 @@ jobs:
       - name: Checkout manifests repo
         uses: actions/checkout@v3
 
-      # 2. Start Minikube (ใช้ Docker driver)
+      # 2. Start Minikube (ลบ cluster เก่า + สร้างใหม่ด้วย Docker driver)
       - name: Start Minikube
         shell: cmd
         run: |
+          minikube delete --all --purge
           minikube start --driver=docker
           kubectl config use-context minikube
 
